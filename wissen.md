@@ -136,3 +136,31 @@ ssh root@212.227.60.81
 ```
 
 Diese Dokumentation enthält alle wichtigen Informationen, um das n8n-Setup bei Bedarf zu rekonstruieren oder zu warten. Sie kann in die wissen.md-Datei im GitHub-Repository eingefügt werden.
+
+Zusammenfassung dessen, was wir heute erreicht haben:
+
+Wir haben die ursprüngliche Konfiguration analysiert und festgestellt, dass:
+
+Die systemweite Nginx-Installation Konflikte verursachte
+Der n8n-Container auf HTTPS konfiguriert war, ohne entsprechende Unterstützung
+Port 5678 von außen nicht erreichbar war
+
+
+Wir haben die Probleme behoben, indem wir:
+
+Die systemweite Nginx-Installation deaktiviert haben
+Den n8n-Container auf HTTP umgestellt haben
+Die Port-Konfiguration auf 80:5678 geändert haben
+N8N_SECURE_COOKIE auf false gesetzt haben
+Die korrekten Volume-Mounts konfiguriert haben
+
+
+Die docker-compose.yml-Datei wurde korrigiert, um sicherzustellen, dass:
+
+Die Konfiguration dauerhaft ist
+Alle Container korrekt miteinander kommunizieren
+Die Workflows erhalten bleiben
+
+
+
+Dein n8n-Setup ist jetzt stabil und sollte auch nach einem Serverneustart richtig funktionieren. Du kannst jetzt deine Automatisierungsworkflows nutzen und erweitern.
