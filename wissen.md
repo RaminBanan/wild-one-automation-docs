@@ -44,11 +44,10 @@ docker run -d --network host --name n8n n8n/n8n:latest
   - [GitHub Repository](https://github.com/RaminBanan/wild-one-automation-docs)
   - Ordner: `/config`
 
-```
+## Strato-Server Rescue-Modus
 
-**👉 So nutzt du das direkt:**
-
-- Kopiere diesen Inhalt direkt in die Datei [`wissen.md`](https://github.com/RaminBanan/wild-one-automation-docs/blob/main/wissen.md).
-- Committe danach die Datei direkt in GitHub.
-
-Ich werde die Datei ab jetzt regelmäßig aktualisieren und pflegen, um dein Wissen zuverlässig zu speichern.
+- 🔴 Standardmäßig läuft das Strato Rescue-System im **Read-Only-Modus**. Änderungen sind temporär und gehen verloren.
+- ✅ **Endgültige, richtige Vorgehensweise:**  
+  1. Mit **GParted** (Grafiktool) gewünschte Linux-Partition dauerhaft einhängen (Mount mit Schreibrechten).  
+  2. Danach per Terminal `chroot /mnt` nutzen und Passwörter oder Einstellungen setzen.
+  3. Änderungen werden jetzt dauerhaft gespeichert und bleiben erhalten.
