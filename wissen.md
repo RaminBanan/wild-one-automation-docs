@@ -51,3 +51,88 @@ docker run -d --network host --name n8n n8n/n8n:latest
   1. Mit **GParted** (Grafiktool) gewünschte Linux-Partition dauerhaft einhängen (Mount mit Schreibrechten).  
   2. Danach per Terminal `chroot /mnt` nutzen und Passwörter oder Einstellungen setzen.
   3. Änderungen werden jetzt dauerhaft gespeichert und bleiben erhalten.
+ 
+
+
+Hier ist eine vollständige Dokumentation für dein n8n-Setup, die zur Ergänzung der wissen.md auf GitHub verwendet werden kann:
+
+# n8n Server-Konfiguration
+
+## Server-Details
+- **IP-Adresse**: 212.227.60.81
+- **Hosting-Provider**: Strato (VPS Linux VC1-1)
+- **Betriebssystem**: Ubuntu 24.04.2 LTS
+
+## Installationsverzeichnisse
+- **Hauptverzeichnis**: `/opt/automation`
+- **Workflow-Verzeichnis**: `/opt/automation/workflows`
+- **Docker-Compose-Datei**: `/opt/automation/docker-compose.yml`
+
+## n8n-Konfiguration
+- **URL**: http://212.227.60.81
+- **Ursprünglicher Port**: 5678 (nicht von außen erreichbar)
+- **Aktueller Port**: 80 (nach außen freigegeben)
+- **Login-Daten**:
+  - **Benutzername**: raminbanan@gmx.de
+  - **Passwort**: ryrryt-bEbhak-5vumby
+
+## Datenbank-Konfiguration
+- **Datenbank-Typ**: PostgreSQL
+- **Container-Name**: automation-postgres-1
+- **Datenbank**: n8n
+- **Benutzer**: n8n_user
+- **Passwort**: DeinNeuesPasswort
+- **Port**: 5432
+
+## Docker-Setup
+- **Container-Namen**:
+  - n8n: automation-n8n-1
+  - PostgreSQL: automation-postgres-1
+  - Nginx: automation-nginx-1
+- **Netzwerke**:
+  - automation_automation-network
+  - automation_nginx-network
+
+## Docker-Container-Start-Befehl
+```bash
+docker run -d --name automation-n8n-1 \
+  --network automation_automation-network \
+  -p 80:5678 \
+  -e N8N_PROTOCOL=http \
+  -e N8N_PORT=5678 \
+  -e N8N_SECURE_COOKIE=false \
+  -e DB_TYPE=postgresdb \
+  -e DB_POSTGRESDB_HOST=postgres \
+  -e DB_POSTGRESDB_PORT=5432 \
+  -e DB_POSTGRESDB_DATABASE=n8n \
+  -e DB_POSTGRESDB_USER=n8n_user \
+  -e DB_POSTGRESDB_PASSWORD=DeinNeuesPasswort \
+  -e N8N_BASIC_AUTH_ACTIVE=true \
+  -e N8N_BASIC_AUTH_USER=raminbanan@gmx.de \
+  -e N8N_BASIC_AUTH_PASSWORD=ryrryt-bEbhak-5vumby \
+  n8nio/n8n:latest
+```
+
+## Aktive Workflows
+1. GitHub-Dokumentation-Update (ID: uE637KZCGeSqgpxq)
+2. GitHub-Dokument-Verarbeitung (ID: IxYjvHeS7EKa77vk)
+
+## Wichtige Hinweise
+- Die systemweite Nginx-Installation wurde deaktiviert (sie verursachte Portkonflikte)
+- Die Strato-Firewall ist deaktiviert
+- Der ursprüngliche Port 5678 war blockiert, daher die Umleitung auf Port 80
+- Der n8n-Container ist so konfiguriert, dass er HTTP statt HTTPS verwendet
+
+## Fehlerbehebung
+Falls n8n nicht erreichbar ist:
+1. Überprüfe, ob die Container laufen: `docker ps`
+2. Prüfe die n8n-Logs: `docker logs automation-n8n-1`
+3. Stelle sicher, dass der Port freigegeben ist: `netstat -tuln | grep 80`
+4. Wenn nötig, starte den Container mit dem oben genannten Befehl neu
+
+## Zugriff auf den Server
+```bash
+ssh root@212.227.60.81
+```
+
+Diese Dokumentation enthält alle wichtigen Informationen, um das n8n-Setup bei Bedarf zu rekonstruieren oder zu warten. Sie kann in die wissen.md-Datei im GitHub-Repository eingefügt werden.
