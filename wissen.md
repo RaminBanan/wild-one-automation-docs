@@ -164,3 +164,19 @@ Die Workflows erhalten bleiben
 
 
 Dein n8n-Setup ist jetzt stabil und sollte auch nach einem Serverneustart richtig funktionieren. Du kannst jetzt deine Automatisierungsworkflows nutzen und erweitern.
+
+## 🔸 Aktueller Status des GitHub-Dokument-Verarbeitung Workflows
+
+- 🔴 **Wichtiger Hinweis:** Der in der ursprünglichen Dokumentation erwähnte Python-Server auf Port 8080 ist aktuell nicht eingerichtet.
+- Der Workflow "GitHub-Dokument-Verarbeitung" enthält eine HTTP-Request-Node, die versucht, mit `http://127.0.0.1:8080/pending-updates.json` zu kommunizieren.
+- Diese Verbindung schlägt fehl, da kein entsprechender Server läuft.
+
+### Lösungsoptionen:
+1. **Empfohlen:** Workflow ohne lokalen Python-Server neu gestalten
+   - Direkte Kommunikation mit GitHub über die integrierten GitHub-Nodes
+   - Verwendung von GitHub Webhooks für ereignisbasierte Auslöser
+   - Verarbeitung direkt innerhalb von n8n mit JavaScript-Code
+
+2. **Alternative:** Python-Server einrichten, falls spezielle Verarbeitungslogik benötigt wird
+   - Server muss auf allen Interfaces (0.0.0.0) hören, nicht nur auf localhost
+   - Bei Verwendung des Python-Servers mit Docker muss die docker-compose.yml entsprechend konfiguriert sein
