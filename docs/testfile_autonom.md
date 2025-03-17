@@ -1,0 +1,1 @@
+Autonomer Testinhalt für GitHub-Datei
